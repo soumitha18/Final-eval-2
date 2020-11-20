@@ -76,7 +76,7 @@ const postCities = async (req, res) => {
 
 const getCities = async (req, res) => {
     try {
-        if (!req.query.school_id) {
+        if (!req.query.district_id) {
             return res.status(400).send('Missing user query');
         }
         const page = parseInt(req.query.page) || 1;
@@ -88,7 +88,34 @@ const getCities = async (req, res) => {
             .skip((page - 1) * limit)
             .limit(limit);
 
-        const count = await Teacher.countDocuments(search_params).exec();
+        const count = await City.countDocuments(search_params).exec();
+        const totalPages = Math.ceil(count / limit);
+        res.status(200).json({ cities, count, totalPages, page, limit });
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+}
+
+const getCitiesBySortAndFilter = async (req, res) => {
+    try {
+        if (!req.query.district_id) {
+            return res.status(400).send('Missing user query');
+        }
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
+        const sort = (req.query.sort === 'asc' ? 1 : -1) || null
+        const type = req.query.type || null
+
+        const search_params = { school_id: mongoose.Types.ObjectId(req.query.district_id) };
+        if (type) {
+            search_params['type'] = type;
+        }
+        let cities = await City.find(search_params)
+            .sort({ population: sort })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const count = await City.countDocuments(search_params).exec();
         const totalPages = Math.ceil(count / limit);
         res.status(200).json({ cities, count, totalPages, page, limit });
     } catch (err) {
@@ -97,7 +124,7 @@ const getCities = async (req, res) => {
     }
 }
 
-const getCityInfo = async (req, res) => {
+const getCitySearch = async (req, res) => {
     try {
         const name = req.query.name.toLowerCase()
         const search_params = { school_id: mongoose.Types.ObjectId(req.query.district_id) };
@@ -131,9 +158,9 @@ const editCity = async (req, res) => {
 const deleteCity = async (req, res) => {
     const id = req.params.id
     City.findByIdAndDelete(id)
-        .then(() => res.json("Teacher Data deleted Successfully!"))
+        .then(() => res.json("City Data deleted Successfully!"))
         .catch(err => res.status(400).json(`Error : ${err}`))
 }
 
 
-module.exports = { registration, login, postCities, getCities, getCityInfo, editCity, deleteCity }
+module.exports = { registration, login, postCities, getCities, getCitySearch, editCity, deleteCity, getCitiesBySortAndFilter }

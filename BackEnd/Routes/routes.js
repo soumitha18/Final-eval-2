@@ -1,5 +1,5 @@
 const express = require("express")
-const { registration, login, postCities, getCities, getCityInfo, editCity, deleteCity } = require("../Controllers/Controllers");
+const { registration, login, postCities, getCities, getCitySearch, editCity, deleteCity, getCitiesBySortAndFilter } = require("../Controllers/Controllers");
 
 const router = express.Router();
 
@@ -11,7 +11,9 @@ router.post("/city", postCities)
 
 router.get("/cities", getCities)
 
-router.get("/city", getCityInfo)
+router.get("/cities/sort-filer", getCitiesBySortAndFilter)
+
+router.get("/city/search", getCitySearch)
 
 router.post("/city/edit/:id", editCity)
 
