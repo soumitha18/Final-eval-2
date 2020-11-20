@@ -27,7 +27,6 @@ export const registerUserFailure = (payload) => ({
 
 export const registerUser = (payload) => (dispatch) => {
     dispatch(registerUserRequest());
-    console.log(payload);
     axios
         .post("http://localhost:5000/register", payload)
         .then((res) => {

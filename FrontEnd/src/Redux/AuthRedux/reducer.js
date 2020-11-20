@@ -4,8 +4,8 @@ import {
     REGISTER_USER_FAILURE,
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAILURE,
-} from "./actionTypes";
+    LOGIN_USER_FAILURE
+} from "./actionType";
 
 import { loadData, saveData } from "../localStorage";
 
@@ -13,7 +13,7 @@ export const initialState = {
     isLoading: false,
     isError: false,
     userData: loadData("docUser") || [],
-    errMsg: "",
+    err: "",
     auth: false
 };
 
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: true,
                 isError: false,
-                errMsg: "",
+                err: "",
             };
 
         case REGISTER_USER_SUCCESS:
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                errMsg: "",
+                err: "",
                 auth: true,
             };
 
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: true,
-                errMsg: action.payload,
+                err: action.payload,
             };
 
         case LOGIN_USER_REQUEST:
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: true,
                 isError: false,
-                errMsg: "",
+                err: "",
             };
 
         case LOGIN_USER_SUCCESS:
@@ -58,7 +58,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                errMsg: "",
+                err: "",
                 auth: true,
                 userData: action.payload.user,
             };
@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: true,
-                errMsg: action.payload,
+                err: action.payload,
             };
 
         default:

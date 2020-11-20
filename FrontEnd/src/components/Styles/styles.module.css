@@ -1,0 +1,45 @@
+.hoverDiv{
+    position: relative;
+    display: inline-block;
+}
+
+.innerHoverDiv{
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    z-index: 1;
+}
+  
+.innerHoverDiv>p {
+    padding: 12px 16px;
+    display: block;
+}
+
+.innerHoverDiv>p:hover {
+    background-color: #ddd;
+}
+
+.hoverDiv:hover .innerHoverDiv {
+    display: block;
+}
+
+.search{
+    width: 30%;
+    margin: 0% auto;
+}
+
+.cards{
+    width: 60%;
+    margin: 0% auto
+}
+
+@media (max-width : 900px){
+    .search, .login{
+        width: 80%;
+    }
+
+    .cards{
+        width: 90%;
+    }
+}
