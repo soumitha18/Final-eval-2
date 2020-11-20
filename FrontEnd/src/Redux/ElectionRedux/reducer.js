@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
                 err: ""
             };
 
-        case :
+        case LOGIN_USER_REQUEST:
             return {
                 ...state,
                 isLoading: true,
