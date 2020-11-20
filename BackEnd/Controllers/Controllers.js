@@ -58,11 +58,11 @@ const postCities = async (req, res) => {
     }
 
     const city = new City({
-        school_id: req.body.school_id,
+        district_id: req.body.district_id,
         name: req.body.name,
-        gender: req.body.gender,
-        age: req.body.age,
-        classes: req.body.classes
+        type: req.body.type,
+        population: req.body.population,
+        polling: req.body.polling
     });
 
     try {
@@ -75,11 +75,9 @@ const postCities = async (req, res) => {
 
 const getAllCities = async (req, res) => {
     try {
-        if (req.query.sort == "") {
-            sort = (req.query.sort === 'asc' ? 1 : -1)
-        }
-        else {
-            sort = 0
+        let sort = 0
+        if (req.query.sort) {
+            sort = req.query.sort === 'asc' ? 1 : -1
         }
         const page = parseInt(req.query.page) || 1;
         const limit = 5;
@@ -88,13 +86,22 @@ const getAllCities = async (req, res) => {
         if (req.query.type != "") {
             search_params['type'] = req.query.type
         }
+        let cities, count
+        if (search_params.type) {
+            cities = await City.find(search_params)
+                .sort({ population: sort })
+                .skip((page - 1) * limit)
+                .limit(limit);
+            count = await City.countDocuments(search_params).exec();
+        }
+        else {
+            cities = await City.find()
+                .sort({ population: sort })
+                .skip((page - 1) * limit)
+                .limit(limit);
+            count = await City.countDocuments().exec();
+        }
 
-        let cities = await City.find(search_params)
-            .sort({ population: sort })
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        const count = await City.countDocuments(search_params).exec();
         const totalPages = Math.ceil(count / limit);
         res.status(200).json({ cities, count, totalPages, page, limit });
     } catch (err) {
@@ -111,7 +118,7 @@ const getCities = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = 5;
 
-        const search_params = { school_id: mongoose.Types.ObjectId(req.query.district_id) };
+        const search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
 
         let cities = await City.find(search_params)
             .skip((page - 1) * limit)
@@ -131,16 +138,15 @@ const getCitiesBySortAndFilter = async (req, res) => {
             return res.status(400).send('Missing user query');
         }
         const page = parseInt(req.query.page) || 1;
-        const limit = 5, sort
-        if (req.query.sort == "") {
-            sort = (req.query.sort === 'asc' ? 1 : -1)
-        }
-        else {
-            sort = 0
+        const limit = 5
+        let sort = 0
+        if (req.query.sort) {
+            sort = req.query.sort === 'asc' ? 1 : -1
         }
 
-        const search_params = { school_id: mongoose.Types.ObjectId(req.query.district_id) };
-        if (req.query.type != "") {
+        const search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
+
+        if (req.query.type) {
             search_params['type'] = req.query.type;
         }
         let cities = await City.find(search_params)
@@ -160,13 +166,13 @@ const getCitiesBySortAndFilter = async (req, res) => {
 const getCitySearch = async (req, res) => {
     try {
         const name = req.query.name.toLowerCase()
-        const search_params = { school_id: mongoose.Types.ObjectId(req.query.district_id) };
+        const search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
 
         let cities = await City.find(search_params)
 
         let result = cities.filter(item => item.name.toLowerCase().includes(name))
 
-        res.send(result)
+        res.send({ cities: result, count: result.length })
     }
     catch (err) {
         res.status(400).send(err.message)

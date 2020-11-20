@@ -5,7 +5,11 @@ export const initialState = {
     data: [],
     isEdit: false,
     isDelete: false,
-    isAdd: false
+    isAdd: false,
+    count: 0,
+    totalPages: 0,
+    page: 1,
+    limit: 5
 }
 
 export default (state = initialState, action) => {
@@ -26,34 +30,105 @@ export default (state = initialState, action) => {
                 ...state,
                 err: ""
             };
-
-        case LOGIN_USER_REQUEST:
+        case ALL_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case ALL_CITY_SUCCESS:
             return {
                 ...state,
-                isLoading: true,
-                isError: false,
-                err: "",
-            };
-
-        case LOGIN_USER_SUCCESS:
-            saveData("docUser", action.payload.user);
+                data: action.payload.cities,
+                count: action.payload.count,
+                totalPages: action.payload.totalPages,
+                page: action.payload.page,
+                limit: action.payload.limit
+            }
+        case ALL_CITY_FAILURE:
             return {
                 ...state,
-                isLoading: false,
-                isError: false,
-                err: "",
-                auth: true,
-                userData: action.payload.user,
-            };
-
-        case LOGIN_USER_FAILURE:
+                err: action.payload
+            }
+        case GET_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case GET_CITY_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                isError: true,
-                err: action.payload,
-            };
-
+                data: action.payload.cities,
+                count: action.payload.count,
+                totalPages: action.payload.totalPages,
+                page: action.payload.page,
+                limit: action.payload.limit
+            }
+        case GET_CITY_FAILURE:
+            return {
+                ...state,
+                err: action.payload
+            }
+        case FILTER_SORT_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case FILTER_SORT_CITY_SUCCESS:
+            return {
+                ...state,
+                data: action.payload.cities,
+                count: action.payload.count,
+                totalPages: action.payload.totalPages,
+                page: action.payload.page,
+                limit: action.payload.limit
+            }
+        case FILTER_SORT_CITY_FAILURE:
+            return {
+                ...state,
+                err: action.payload
+            }
+        case SEARCH_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case SEARCH_CITY_SUCCESS:
+            return {
+                ...state,
+                data: action.payload.cities,
+                count: action.payload.count,
+                totalPages: 1,
+                page: 1
+            }
+        case SEARCH_CITY_FAILURE:
+            return {
+                ...state,
+                err: action.payload
+            }
+        case EDIT_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case EDIT_CITY_SUCCESS:
+            return {
+                ...state,
+                isEdit: true
+            }
+        case EDIT_CITY_FAILURE:
+            return {
+                ...state,
+                err: action.payload
+            }
+        case DELETE_CITY_REQUEST:
+            return {
+                ...state
+            }
+        case DELETE_CITY_SUCCESS:
+            return {
+                ...state,
+                isDelete: true
+            }
+        case DELETE_CITY_FAILURE:
+            return {
+                ...state,
+                err: action.payload
+            }
         default:
             return state;
     }
