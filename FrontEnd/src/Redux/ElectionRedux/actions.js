@@ -90,6 +90,7 @@ export const filterSortCityFailure = (payload) => ({
 })
 
 export const filterSortCity = ({ district_id, page, type, sort }) => (dispatch) => {
+    console.log(district_id, page, type, sort)
     dispatch(filterSortCityRequest())
     axios
         .get(`http://localhost:5000/cities/sort-filter?district_id=${district_id}&page=${page}&type=${type}&sort=${sort}`)

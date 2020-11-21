@@ -26,13 +26,11 @@ export const EditPolling = ({ data }) => {
             population,
             polling
         }
-        console.log(payload)
         dispatch(editCity({ payload }))
     }
 
     const handleEditAdd = (obj, index) => {
         polling = polling.map((item, i) => i === index ? obj : item)
-        console.log(polling, obj)
         alert("Poll updated!")
     }
 
@@ -111,7 +109,7 @@ function Polling({ onSubmit, data, i, handleDeletePoll }) {
             <input className="form-control mb-3" type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Name" />
             <input className="form-control mb-3" type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="Address" />
             <input className="form-control mb-3" type="text" value={pincode} onChange={e => setPincode(e.target.value)} placeholder="Pin Code" />
-            <button className="btn btn-primary mb-3" onClick={handleEdit}>update class</button>
+            <button className="btn btn-primary mb-3" onClick={handleEdit}>update poll</button>
             <button className="btn btn-danger ml-3 mb-3" onClick={() => handleDeletePoll(i)}>Delete</button>
         </div>
     )
