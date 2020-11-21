@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { loginUser, logout, registerUser } from '../Redux/AuthRedux/actions'
+import "./Styles/styles.module.css"
 
 export const NavBar = () => {
 
@@ -37,7 +38,7 @@ export const NavBar = () => {
     return (
         <div className={`row p-3 font-weight-bolder shadow border-bottom`} style={{ background: "whitesmoke" }}>
             <div className="col-12 col-md-8 col-lg-10">
-                <Link to="/" className="text-dark h3 font-weight-bolder"><b>Election Polling</b></Link>
+                <Link to="/" className="text-dark h3 font-weight-bolder" style={{ textDecoration: "none" }}><b>Election Polling</b></Link>
             </div>
             {
                 !auth ?

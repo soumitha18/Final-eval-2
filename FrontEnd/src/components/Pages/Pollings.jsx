@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux'
 import style from "../Styles/styles.module.css"
 
 export const Pollings = ({ data, totalPages, page, setPage, handleDelete, handleSearch }) => {
 
     const [search, setSearch] = useState("")
     const history = useHistory()
+    const auth = useSelector(state => state.Auth.auth)
 
     const handleChange = (item) => {
         localStorage.setItem("Election", JSON.stringify(item));
@@ -39,7 +41,9 @@ export const Pollings = ({ data, totalPages, page, setPage, handleDelete, handle
                                         <p className="card-text">No. of Polling : <b>{item.polling.length}</b></p>
                                     </div>
                                     <div className="col-1">
-                                        <img onClick={() => handleDelete(item._id)} src="https://www.flaticon.com/svg/static/icons/svg/2089/2089743.svg" alt="delete" width="20px" />
+                                        {
+                                            auth ? <img onClick={() => handleDelete(item._id)} src="https://www.flaticon.com/svg/static/icons/svg/2089/2089743.svg" alt="delete" width="20px" /> : null
+                                        }
                                     </div>
                                     <div className="col-1">
                                         <img onClick={() => handleChange(item)} src="https://www.flaticon.com/svg/static/icons/svg/1828/1828805.svg" alt="moreInfo" width="20px" />
