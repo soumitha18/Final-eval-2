@@ -11,12 +11,12 @@ import {
 import { loadData, saveData } from "../localStorage";
 
 export const initialState = {
-    userData: loadData("docUser") || [],
+    userData: loadData("userData") || [],
     err: "",
-    auth: false
+    auth: loadData("auth") || false
 };
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case REGISTER_USER_REQUEST:
             return {
@@ -25,6 +25,8 @@ export default (state = initialState, action) => {
             };
 
         case REGISTER_USER_SUCCESS:
+            saveData("userData", action.payload);
+            saveData("auth", true)
             return {
                 ...state,
                 err: "",
@@ -45,7 +47,8 @@ export default (state = initialState, action) => {
             };
 
         case LOGIN_USER_SUCCESS:
-            saveData("docUser", action.payload);
+            saveData("userData", action.payload);
+            saveData("auth", true)
             return {
                 ...state,
                 err: "",
@@ -59,6 +62,8 @@ export default (state = initialState, action) => {
                 err: action.payload.response.data,
             };
         case LOGOUT:
+            saveData("userData", []);
+            saveData("auth", false)
             return {
                 ...state,
                 auth: false
@@ -67,3 +72,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default reducer

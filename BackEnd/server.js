@@ -17,8 +17,9 @@ mongoose.connect(process.env.ATLAS_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
-}, () => {
-    console.log("Database is connected")
+}, (err) => {
+    if (err) console.log("Connection to database failed");
+    else console.log("Database is connected")
 })
 
 app.use("/", UserRouters)

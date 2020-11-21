@@ -12,7 +12,7 @@ export const initialState = {
     limit: 5
 }
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_CITY_REQUEST:
             return {
@@ -140,3 +140,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default reducer
