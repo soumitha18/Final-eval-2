@@ -26,12 +26,14 @@ export const EditPolling = ({ data }) => {
             population,
             polling
         }
+        console.log(payload)
         dispatch(editCity({ payload }))
     }
 
     const handleEditAdd = (obj, index) => {
         polling = polling.map((item, i) => i === index ? obj : item)
-        alert("class Added!")
+        console.log(polling, obj)
+        alert("Poll updated!")
     }
 
     const addPolling = () => {
@@ -100,7 +102,7 @@ function Polling({ onSubmit, data, i, handleDeletePoll }) {
             alert("No field should be empty")
             return
         }
-        let obj = { name, address, pincode }
+        let obj = { name, address, pincode: Number(pincode) }
         onSubmit(obj, i)
     }
 

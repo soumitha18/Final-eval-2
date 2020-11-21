@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import style from "../Styles/styles.module.css"
 

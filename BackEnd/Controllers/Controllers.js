@@ -191,9 +191,9 @@ const editCity = async (req, res) => {
     City.findById(req.params.id)
         .then(city => {
             city.name = req.body.name,
-                city.gender = req.body.gender,
-                city.age = req.body.age,
-                city.classes = req.body.classes
+                city.type = req.body.type,
+                city.population = req.body.population,
+                city.polling = req.body.polling
 
             city.save()
                 .then(() => res.json("City Data updated Successfully!"))

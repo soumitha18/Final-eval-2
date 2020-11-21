@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { loginUser, registerUser } from '../Redux/AuthRedux/actions'
+import { loginUser, logout, registerUser } from '../Redux/AuthRedux/actions'
 
 export const NavBar = () => {
 
@@ -15,10 +15,23 @@ export const NavBar = () => {
 
     const handleLogin = () => {
         dispatch(loginUser({ email, password, district }))
+        handleData()
     }
 
     const handleRegister = () => {
         dispatch(registerUser({ name, email, password, district }))
+        handleData()
+    }
+
+    const handleLogout = () => {
+        dispatch(logout())
+    }
+
+    const handleData = () => {
+        setName("")
+        setEmail("")
+        setDistrict("")
+        setPassword("")
     }
 
     return (
@@ -29,10 +42,10 @@ export const NavBar = () => {
             {
                 !auth ?
                     <div className="col-12 col-md-4 col-lg-2">
-                        <div className="text-right pr-5 pt-2" data-toggle="modal" data-target="#modalLRForm">SignUp</div>
+                        <div className="text-right pr-5 pt-2" data-toggle="modal" data-target="#modalLRForm">Sign</div>
                     </div> :
                     <div className="col-12 col-md-4 col-lg-2">
-                        <div className="text-right pr-5 pt-2">LogOut</div>
+                        <div className="text-right pr-5 pt-2" onClick={handleLogout}>LogOut</div>
                     </div>
             }
             <div

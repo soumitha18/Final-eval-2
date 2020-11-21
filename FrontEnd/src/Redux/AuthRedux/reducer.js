@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
         case REGISTER_USER_FAILURE:
             return {
                 ...state,
-                err: action.payload,
+                err: action.payload.response.data,
             };
 
         case LOGIN_USER_REQUEST:
@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
         case LOGIN_USER_FAILURE:
             return {
                 ...state,
-                err: action.payload,
+                err: action.payload.response.data,
             };
         case LOGOUT:
             return {
