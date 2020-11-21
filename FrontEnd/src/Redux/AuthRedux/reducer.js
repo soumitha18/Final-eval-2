@@ -4,14 +4,13 @@ import {
     REGISTER_USER_FAILURE,
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAILURE
+    LOGIN_USER_FAILURE,
+    LOGOUT
 } from "./actionType";
 
 import { loadData, saveData } from "../localStorage";
 
 export const initialState = {
-    isLoading: false,
-    isError: false,
     userData: loadData("docUser") || [],
     err: "",
     auth: false
@@ -22,55 +21,48 @@ export default (state = initialState, action) => {
         case REGISTER_USER_REQUEST:
             return {
                 ...state,
-                isLoading: true,
-                isError: false,
                 err: "",
             };
 
         case REGISTER_USER_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                isError: false,
                 err: "",
                 auth: true,
+                userData: action.payload
             };
 
         case REGISTER_USER_FAILURE:
             return {
                 ...state,
-                isLoading: false,
-                isError: true,
                 err: action.payload,
             };
 
         case LOGIN_USER_REQUEST:
             return {
                 ...state,
-                isLoading: true,
-                isError: false,
                 err: "",
             };
 
         case LOGIN_USER_SUCCESS:
-            saveData("docUser", action.payload.user);
+            saveData("docUser", action.payload);
             return {
                 ...state,
-                isLoading: false,
-                isError: false,
                 err: "",
                 auth: true,
-                userData: action.payload.user,
+                userData: action.payload,
             };
 
         case LOGIN_USER_FAILURE:
             return {
                 ...state,
-                isLoading: false,
-                isError: true,
                 err: action.payload,
             };
-
+        case LOGOUT:
+            return {
+                ...state,
+                auth: false
+            };
         default:
             return state;
     }

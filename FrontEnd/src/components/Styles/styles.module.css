@@ -34,12 +34,17 @@
     margin: 0% auto
 }
 
+.more{
+    width: 50%;
+    margin: 0% auto;
+}
+
 @media (max-width : 900px){
     .search, .login{
         width: 80%;
     }
 
-    .cards{
+    .cards, .more{
         width: 90%;
     }
 }

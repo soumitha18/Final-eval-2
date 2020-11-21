@@ -76,7 +76,7 @@ const postCities = async (req, res) => {
 const getAllCities = async (req, res) => {
     try {
         let sort = 0
-        if (req.query.sort) {
+        if (req.query.sort != "") {
             sort = req.query.sort === 'asc' ? 1 : -1
         }
         const page = parseInt(req.query.page) || 1;
@@ -140,13 +140,13 @@ const getCitiesBySortAndFilter = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = 5
         let sort = 0
-        if (req.query.sort) {
+        if (req.query.sort != "") {
             sort = req.query.sort === 'asc' ? 1 : -1
         }
 
         const search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
 
-        if (req.query.type) {
+        if (req.query.type != "") {
             search_params['type'] = req.query.type;
         }
         let cities = await City.find(search_params)
@@ -166,9 +166,17 @@ const getCitiesBySortAndFilter = async (req, res) => {
 const getCitySearch = async (req, res) => {
     try {
         const name = req.query.name.toLowerCase()
-        const search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
+        let search_params
+        if (req.query.district_id != "")
+            search_params = { district_id: mongoose.Types.ObjectId(req.query.district_id) };
 
-        let cities = await City.find(search_params)
+        let cities
+        if (req.query.district_id != "") {
+            cities = await City.find(search_params)
+        }
+        else {
+            cities = await City.find()
+        }
 
         let result = cities.filter(item => item.name.toLowerCase().includes(name))
 

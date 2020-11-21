@@ -13,7 +13,7 @@ router.get("/cities/all", getAllCities)
 
 router.get("/cities", getCities)
 
-router.get("/cities/sort-filer", getCitiesBySortAndFilter)
+router.get("/cities/sort-filter", getCitiesBySortAndFilter)
 
 router.get("/city/search", getCitySearch)
 

@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import style from "../Styles/styles.module.css"
 
-export const Pollings = ({ data, totalPages, page, setPage }) => {
+export const Pollings = ({ data, totalPages, page, setPage, handleDelete, handleSearch }) => {
+
+    const [search, setSearch] = useState("")
+    const history = useHistory()
+
+    const handleChange = (item) => {
+        localStorage.setItem("Election", JSON.stringify(item));
+        history.push("/polling")
+    }
 
     return (
         <div>
             <div className={`mb-3 ${style.search}`}>
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search Teacher" />
+                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search Teacher" />
                     <div className="input-group-prepend">
-                        <div className="input-group-text">
+                        <div className="input-group-text" onClick={() => handleSearch(search)}>
                             <img src="https://www.flaticon.com/svg/static/icons/svg/1086/1086933.svg" width="20px" alt="search" />
                         </div>
                     </div>
@@ -30,16 +40,19 @@ export const Pollings = ({ data, totalPages, page, setPage }) => {
                                         <p className="card-text">No. of Polling : <b>{item.polling.length}</b></p>
                                     </div>
                                     <div className="col-1">
-                                        <img src="https://www.flaticon.com/svg/static/icons/svg/2089/2089743.svg" alt="delete" width="20px" />
+                                        <img onClick={() => handleDelete(item._id)} src="https://www.flaticon.com/svg/static/icons/svg/2089/2089743.svg" alt="delete" width="20px" />
                                     </div>
                                     <div className="col-1">
-                                        <img src="https://www.flaticon.com/svg/static/icons/svg/1828/1828805.svg" alt="moreInfo" width="20px" />
+                                        <img onClick={() => handleChange(item)} src="https://www.flaticon.com/svg/static/icons/svg/1828/1828805.svg" alt="moreInfo" width="20px" />
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     ))
+                }
+                {
+                    data && data.length === 0 ? <div className="text-center text-danger col-12"><small><b>Data is Empty</b></small></div> : null
                 }
             </div>
             <div>
