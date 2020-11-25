@@ -18,7 +18,7 @@ export const Pollings = ({ data, totalPages, page, setPage, handleDelete, handle
         <div>
             <div className={`mb-3 ${style.search}`}>
                 <div className="input-group">
-                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search Teacher" />
+                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search" />
                     <div className="input-group-prepend">
                         <div className="input-group-text" onClick={() => handleSearch(search)}>
                             <img src="https://www.flaticon.com/svg/static/icons/svg/1086/1086933.svg" width="20px" alt="search" />
